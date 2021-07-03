@@ -12,6 +12,11 @@ module.exports.doRegister = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
+        if (req.file) {
+          req.body.image = req.file.path;
+          // req.body.image = `/uploads/${req.file.filename}`;
+        }
+
         User.create(req.body)
           .then(() => {
             res.redirect('/')
