@@ -14,5 +14,6 @@ router.post('/register', upload.single("image"), authController.doRegister);
 // Login
 router.get('/login', authController.login);
 router.post('/login', authController.doLogin);
+router.post('/logout', authController.logout)
 
 module.exports = router;
