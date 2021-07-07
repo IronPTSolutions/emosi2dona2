@@ -28,7 +28,11 @@ passport.use('local-auth', new LocalStrategy({
         return user.checkPassword(password)
           .then((match) => {
             if (match) {
-              next(null, user)
+              if (user.active) {
+                next(null, user)
+              } else {
+                next(null, false, { error: "Check your email. You have to activate your account" })
+              }
             } else {
               next(null, false, { error: "Email or password are incorrect" })
             }
@@ -56,7 +60,8 @@ passport.use('google-auth', new GoogleStrategy({
         const newUserInstance = new User({
           email,
           password: mongoose.Types.ObjectId(),
-          googleID: googleID
+          googleID: googleID,
+          active: true
         })
 
         return newUserInstance.save()

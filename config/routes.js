@@ -24,4 +24,6 @@ router.get('/auth/google', passport.authenticate('google-auth', { scope: GOOGLE_
 router.get('/auth/google/callback', authController.doLoginGoogle)
 router.post('/logout', authController.logout)
 
+router.get("/activate/:token", authController.activate);
+
 module.exports = router;
