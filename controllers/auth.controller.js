@@ -1,6 +1,7 @@
 const User = require("../models/User.model");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const mailer = require("../config/mailer.config");
 
 module.exports.register = (req, res, next) => {
   res.render("auth/register")
@@ -18,8 +19,9 @@ module.exports.doRegister = (req, res, next) => {
         }
 
         User.create(req.body)
-          .then(() => {
-            res.redirect('/')
+          .then((newUser) => {
+            mailer.sendActivationMail(newUser.email, newUser.activationToken);
+            res.redirect('/login')
           })
           .catch(e => {
             if (e instanceof mongoose.Error.ValidationError) {
@@ -50,7 +52,7 @@ module.exports.doLogin = (req, res, next) => {
         if (loginErr) {
           next(loginErr)
         } else {
-          res.redirect('/')
+          res.redirect('/profile')
         }
       })
     }
@@ -66,7 +68,7 @@ module.exports.doLoginGoogle = (req, res, next) => {
     } else {
       req.login(user, loginErr => {
         if (loginErr) next(loginErr)
-        else res.redirect('/')
+        else res.redirect('/profile')
       })
     }
   })(req, res, next)
@@ -76,3 +78,23 @@ module.exports.logout = (req, res, next) => {
   req.logout();
   res.redirect("/");
 };
+
+module.exports.activateAccount = (req, res, next) => {
+  const token = req.params.token;
+
+  User.findOneAndUpdate(
+    { activationToken: token, active: false },
+    { active: true }
+  )
+    .then((user) => {
+      if (user) {
+        res.render("auth/login", {
+          user: { email: user.email },
+          message: "You have activated your account. Thanks for joining!"
+        })
+      } else {
+        res.redirect("/")
+      }
+    })
+    .catch(next)
+}
