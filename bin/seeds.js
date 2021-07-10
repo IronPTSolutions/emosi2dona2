@@ -24,7 +24,8 @@ mongoose.connection.once('connected', () => {
           fullName: faker.name.findName(),
           email: faker.internet.email(),
           password: "fakepassword",
-          image: faker.internet.avatar()
+          image: faker.internet.avatar(),
+          active: true,
         }
 
         usersToCreate.push(user)
@@ -37,7 +38,7 @@ mongoose.connection.once('connected', () => {
       //     image: faker.internet.avatar()
       // }))
 
-      return User.insertMany(usersToCreate)
+      return User.create(usersToCreate)
     })
     .then(users => {
       const projectsToCreate = [];
@@ -46,7 +47,7 @@ mongoose.connection.once('connected', () => {
         console.log(`Created user with name ${user.fullName}`)
 
 
-        for (let j = 0; j < 2; j++) {
+        for (let j = 0; j < 4; j++) {
           const project = {
             title: faker.lorem.sentence(),
             description: faker.lorem.paragraphs(),

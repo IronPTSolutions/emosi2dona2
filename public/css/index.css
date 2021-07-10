@@ -1,0 +1,15 @@
+.profile {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card .card-body h5 {
+  color: var(--bs-dark) !important;
+  text-decoration: none !important;
+}
