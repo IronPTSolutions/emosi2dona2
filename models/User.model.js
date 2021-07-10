@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       match: [EMAIL_PATTERN, "Email is invalid"]
     },
+    fullName: {
+      type: String,
+      required: [true, "Full name is required"]
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -61,7 +65,5 @@ userSchema.methods.checkPassword = function(passwordToCheck) {
 }
 
 const User = mongoose.model("User", userSchema);
-
-
 
 module.exports = User;
