@@ -3,6 +3,7 @@ const passport = require('passport')
 const miscController = require('../controllers/misc.controller');
 const authController = require('../controllers/auth.controller');
 const usersController = require('../controllers/users.controller');
+const projectsController = require('../controllers/projects.controller');
 const upload = require('./storage.config')
 
 const authMiddleware = require('../middlewares/auth.middleware');
@@ -29,5 +30,13 @@ router.get('/activate/:token', authMiddleware.isNotAuthenticated, authController
 
 // Profile
 router.get('/profile', authMiddleware.isAuthenticated, usersController.profile)
+router.get('/users/:userId', usersController.profile)
+
+// Projects
+router.get('/projects/:id', projectsController.getProject)
+router.post('/projects/:id/like', authMiddleware.isAuthenticated, projectsController.like)
+
+// Users
+router.get('/users', authMiddleware.isAuthenticated, authMiddleware.checkRole('ADMIN'), usersController.listUsers)
 
 module.exports = router;

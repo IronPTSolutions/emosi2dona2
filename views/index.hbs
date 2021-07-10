@@ -1,6 +1,7 @@
-<h1>Emosi2Dona2</h1>
+<h1 class="mt-3">Emosi2Dona2</h1>
 
-{{#if currentUser}}
-  <p>{{currentUser.email}}</p>
-  <img src="{{currentUser.image}}" alt="">
-{{/if}}
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-4 mb-4">
+  {{#each projects as |project|}}
+    {{>projectCard project}}
+  {{/each}}
+</div>
