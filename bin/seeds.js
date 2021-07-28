@@ -51,7 +51,7 @@ mongoose.connection.once('connected', () => {
           const project = {
             title: faker.lorem.sentence(),
             description: faker.lorem.paragraphs(),
-            images: [faker.image.image(), faker.image.image()],
+            images: [faker.internet.avatar(), faker.internet.avatar()],
             owner: user._id
           }
   
