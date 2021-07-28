@@ -4,7 +4,7 @@ const Like = require("../models/Like.model");
 module.exports.getProject = (req, res, next) => {
   Project.findById(req.params.id)
     .then(project => {
-      return Like.findOne({ user: req.user._id, project: req.params.id })
+      return Like.findOne({ user: req.user?._id, project: req.params.id })
         .then(like => {
           const liked = !!like;
 
@@ -16,7 +16,7 @@ module.exports.getProject = (req, res, next) => {
 
 module.exports.like = (req, res, next) => {
   // Search if there is a like
-  Like.findOneAndDelete({ user: req.user._id, project: req.params.id })
+  Like.findOneAndDelete({ user: req.user?._id, project: req.params.id })
     .then(like => {
       if (!like) {
         return Like.create({

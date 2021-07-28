@@ -6,8 +6,6 @@ const mongoose = require("mongoose")
 const Project = require("../models/Project.model");
 const User = require("../models/User.model");
 
-require('../config/db.config');
-
 mongoose.connection.once('connected', () => {
   mongoose.connection.db.dropDatabase()
     .then(() => {
