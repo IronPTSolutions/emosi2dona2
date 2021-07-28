@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema(
       match: [EMAIL_PATTERN, "Email is invalid"]
     },
     fullName: {
-      type: String,
-      required: [true, "Full name is required"]
+      type: String
     },
     password: {
       type: String,
